@@ -22,10 +22,19 @@ public:
 	perfect_cachelet(size_t capasity, std::list<key_t> requests) : capasity_(capasity) {
 		for (auto *key = requests.begin(), *end = requests.end(); key != end; ++key ) {
 			if ( predicted_element_counts_.find(key) ) 
-				predicted_element_counts_[key]++;
+				++predicted_element_counts_[key];
 			else
 				predicted_element_counts_[key] = 1;
 		}
+	}
+
+	bool lookup_update(key_t key, data_t (*slow_get_item)(key_t)) {
+		auto hit = cache_.find(key);
+		if (hit == cache_.end()) {
+			data_t new_item = slow_get_item(key);
+			return update_cache_miss(key, new_item);
+		}
+		return update_cache_hit(key);
 	}
 };
 }

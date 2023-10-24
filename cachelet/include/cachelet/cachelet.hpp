@@ -62,8 +62,7 @@ namespace cache
 
 		bool lookup_update(key_t key, data_t (*slow_get_item)(key_t)) {
 			auto hit = cache_.find(key);
-			if (hit == cache_.end())
-			{
+			if (hit == cache_.end()) {
 				data_t new_item = slow_get_item(key);
 				return update_cache_miss(key, new_item);
 			}
