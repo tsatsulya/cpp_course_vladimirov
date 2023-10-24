@@ -10,22 +10,22 @@ class user_item {
 	rand_gen::generator user_generator = rand_gen::generator();
 
 public:
-	std::string string_key_;
+	int key_;
 	int unnecessary_value_;
 
 	user_item() {
-		string_key_ = user_generator.generate_random_string();
+		key_ = user_generator.generate_random_int();
 		unnecessary_value_ = user_generator.generate_random_int();
 	}
-	user_item(std::string string_key, int unnecessary_value) : string_key_(string_key), 
+	user_item(int string_key, int unnecessary_value) : key_(string_key), 
 		unnecessary_value_(unnecessary_value) {}
 	
-	explicit user_item(std::string string_key) : string_key_(string_key) {
+	explicit user_item(int string_key) : key_(string_key) {
 		unnecessary_value_ = user_generator.generate_random_int();
 	}
 
 	void print_user_item_info() {
-		std::cout << "key: " << string_key_ << std::endl;
+		std::cout << "key: " << key_ << std::endl;
 		std::cout << "value: " << unnecessary_value_ << std::endl;
 	}
 	

@@ -77,9 +77,13 @@ public:
 	}
 
 	void print_cache_state() const {
-		std::cout << "size: " << cache_.size() << "/" << capasity_ << std::endl;
-		for (auto &pair: cache_) {
-			std::cout << *pair.second << "\t";
+		// std::cout << "size: " << cache_.size() << "/" << capasity_ << std::endl;
+		// for (auto &pair: cache_) {
+		// 	std::cout << pair.first << "." << *pair.second << "\t";
+		// }
+		// std::cout << "\n";
+		for (auto &pair: counts_) {
+			std::cout << pair.first << "." << pair.second << "\t";
 		}
 		std::cout << std::endl;
 		
