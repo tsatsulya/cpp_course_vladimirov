@@ -11,7 +11,7 @@ namespace cache
 	class cachelet
 	{
 		std::list<data_t> stream_;
-		size_t capasity_;
+		size_t capacity_;
 		size_t size_;
 
 		using iterator_t = typename std::list<data_t>::const_iterator;
@@ -32,10 +32,9 @@ namespace cache
 		}
 
 		bool update_cache_miss(key_t key, data_t new_item) {
-			if (cache_.size() >= capasity_) {
+			if (cache_.size() >= capacity_) {
 				key_t key_of_minimal_count = find_first_minimal_count(counts_);
-				iterator_t it_min = cache_[key_of_minimal_count];
-				cache_.erase(key_of_minimal_count);
+				iterator_t it_min = cache_[key_of_minimal_count];cache_.erase(key_of_minimal_count);
 				counts_.erase(key_of_minimal_count);
 			}
 
@@ -58,7 +57,7 @@ namespace cache
 		}
 
 	public:
-		explicit cachelet(size_t capasity) : capasity_(capasity) {}
+		explicit cachelet(size_t capacity) : capacity_(capacity) {}
 
 		bool lookup_update(key_t key, data_t (*slow_get_item)(key_t)) {
 			auto hit = cache_.find(key);
@@ -69,6 +68,11 @@ namespace cache
 			return update_cache_hit(key);
 		}
 
+		data_t get_item(key_t key, data_t (*slow_get_item)(key_t)) {
+			lookup_update(key, slow_get_item);
+			return cache_[key];
+		}
+
 		void clear() {
 			cache_.clear();
 			counts_.clear();
@@ -77,7 +81,7 @@ namespace cache
 		}
 
 		void print_cache_state() const {
-			std::cout << "size: " << cache_.size() << "/" << capasity_ << std::endl;
+			std::cout << "size: " << cache_.size() << "/" << capacity_ << std::endl;
 			for (auto &pair : cache_)
 			{
 				std::cout << *pair.second << "\t";
